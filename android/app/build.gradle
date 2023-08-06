@@ -53,6 +53,23 @@ android {
         versionName flutterVersionName
     }
 
+    flavorDimensions "app"
+
+    productFlavors {
+        simpsons {
+            dimension "app"
+            applicationId "dev.flutter_characters.simpsons"
+            versionCode 1
+            versionName "1.0"
+        }
+        wire {
+            dimension "app"
+            applicationId "dev.flutter_characters.wire"
+            versionCode 1
+            versionName "1.0"
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
