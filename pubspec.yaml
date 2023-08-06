@@ -99,3 +99,15 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flavorDimensions: "app"
+flavors:
+  variant1:
+    name: "wireCharacter"
+    packageName: "com.example.wireCharacter"
+    flavorValue: "variant1"
+    apiUrl: "https://api.example.com/wireCharacter"
+  variant2:
+    name: "simpsions"
+    packageName: "com.example.simpsions"
+    flavorValue: "variant2"
+    apiUrl: "https://api.example.com/simpsions"

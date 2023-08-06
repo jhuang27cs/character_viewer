@@ -1,25 +1,30 @@
+import 'package:character_viewer/injectable_init.dart';
 import 'package:character_viewer/pages/phone/list_screen/list_screen_page.dart';
+import 'package:character_viewer/pages/tablet/home_page_view.dart';
+import 'package:character_viewer/provider/device_router_provider.dart';
+import 'package:character_viewer/services/character_request.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'injectable_init.dart';
-import 'pages/tablet/home_page_view.dart';
-import 'provider/device_router_provider.dart';
 
-void main() {
+void mainCommon(CharacterType curType) {
   configureDependencies();
-  runApp(const MyApp());
+  runApp(CommonApp(
+    type: curType,
+  ));
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class CommonApp extends StatefulWidget {
+  final CharacterType type;
+  const CommonApp({super.key, required this.type});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<CommonApp> createState() => _CommonAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _CommonAppState extends State<CommonApp> {
   // This widget is the root of your application.
   final Logger logger = Logger();
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -33,7 +38,7 @@ class _MyAppState extends State<MyApp> {
                 logger.d('trying to route to ${settings.name}');
                 if (settings.name == '/') return null;
                 deviceSpecificRoutes =
-                    DeviceRouterProvider().getRouter(context);
+                    DeviceRouterProvider().getRouter(context, widget.type);
                 if (!deviceSpecificRoutes.keys
                     .toList()
                     .contains(settings.name)) {
@@ -48,7 +53,9 @@ class _MyAppState extends State<MyApp> {
               },
               initialRoute: ListScreenPage.routeName,
               routes: {
-                ListScreenPage.routeName: (context) => const ListScreenPage(),
+                ListScreenPage.routeName: (context) => ListScreenPage(
+                      currentType: widget.type,
+                    ),
               });
         } else {
           // Use tablet layout with list and detail on same screen

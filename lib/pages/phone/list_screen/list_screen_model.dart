@@ -7,13 +7,14 @@ class ListScreenModel with ChangeNotifier {
   List<CharacterDetail> listOfCharacters = [];
   BuildContext context;
   late CharacterRequest services;
-  ListScreenModel(this.context) {
+  CharacterType currenType;
+  ListScreenModel(this.context, this.currenType) {
     services = getIt.get<CharacterRequest>();
   }
 
   Future<List<CharacterDetail>> getCharacterLists() async {
     List<CharacterDetail> result = [];
-    result = await services.getCharacterLists(CharacterType.wireCharacter);
+    result = await services.getCharacterLists(currenType);
     listOfCharacters = result;
     return result;
   }
