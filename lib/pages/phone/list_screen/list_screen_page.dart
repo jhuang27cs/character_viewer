@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 
 class ListScreenPage extends StatelessWidget {
   final CharacterType currentType;
-  const ListScreenPage({super.key, required this.currentType});
+  final CharacterCallBack? characterSelected;
+  const ListScreenPage(
+      {super.key, required this.currentType, this.characterSelected});
   static const routeName = '/list_screen';
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class ListScreenPage extends StatelessWidget {
         ChangeNotifierProvider<ListScreenModel>(
             create: (context) => ListScreenModel(context, currentType)),
       ],
-      child: const ListScreenView(),
+      child: ListScreenView(onItemTapped: characterSelected),
     );
   }
 }

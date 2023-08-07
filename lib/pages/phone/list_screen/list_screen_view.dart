@@ -4,8 +4,11 @@ import 'package:character_viewer/pages/phone/list_screen/list_screen_model.dart'
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+typedef CharacterCallBack = Function(CharacterDetail character);
+
 class ListScreenView extends StatefulWidget {
-  const ListScreenView({super.key});
+  final CharacterCallBack? onItemTapped;
+  const ListScreenView({super.key, this.onItemTapped});
 
   @override
   State<ListScreenView> createState() => _ListScreenViewState();
@@ -25,6 +28,9 @@ class _ListScreenViewState extends State<ListScreenView> {
     future = mdl.getCharacterLists().then((value) {
       _allItems = value;
       _searchedItems = _allItems;
+      if (widget.onItemTapped != null) {
+        widget.onItemTapped!(_searchedItems[0]);
+      }
       return value;
     });
   }
@@ -51,12 +57,16 @@ class _ListScreenViewState extends State<ListScreenView> {
                   return ListTile(
                       title: Text(_searchedItems[index].name ?? ""),
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<Widget>(
-                              builder: (BuildContext context) =>
-                                  DetailScreen(details: _searchedItems[index])),
-                        );
+                        if (widget.onItemTapped != null) {
+                          widget.onItemTapped!(_searchedItems[index]);
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<Widget>(
+                                builder: (BuildContext context) => DetailScreen(
+                                    details: _searchedItems[index])),
+                          );
+                        }
                       });
                 },
               ),
